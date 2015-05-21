@@ -24,7 +24,7 @@
     <bean id="transactionService" class="org.tai.spring.wiring.application.TransactionService">
         <constructor-arg ref="transactionRepository"/>
         <constructor-arg ref="summaryService"/>
-    </bean>ro
+    </bean>
 
     <bean id="reportGenerator" class="org.tai.spring.wiring.application.ReportGenerator">
         <constructor-arg ref="transactionService"/>
