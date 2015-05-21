@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <import resource="test-data-source.xml"/>
+    <import resource="production-data-source.xml"/>
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:conf/report.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="transactionRepository" class="org.tai.spring.wiring.domain.repository.TransactionRepository">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="summaryService" class="org.tai.spring.wiring.domain.service.SummaryService"/>
+
+    <bean id="transactionService" class="org.tai.spring.wiring.application.TransactionService">
+        <constructor-arg ref="transactionRepository"/>
+        <constructor-arg ref="summaryService"/>
+    </bean>ro
+
+    <bean id="reportGenerator" class="org.tai.spring.wiring.application.ReportGenerator">
+        <constructor-arg ref="transactionService"/>
+        <constructor-arg name="reportLocation" value="${report.location}"/>
+    </bean>
+
+</beans>
